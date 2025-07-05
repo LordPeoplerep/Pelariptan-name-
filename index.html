@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pelariptan Name Generator</title>
+  <style>
+    body {
+      background: #101820;
+      color: #FF6F00;
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      padding: 2em;
+    }
+    select, button {
+      padding: 0.5em 1em;
+      margin: 1em;
+      font-size: 1em;
+      border: none;
+      border-radius: 8px;
+    }
+    .output {
+      font-size: 1.5em;
+      margin-top: 1.5em;
+      color: #00FFCE;
+    }
+  </style>
+</head>
+<body>
+  <h1>Pelariptan Name Generator</h1>
+  <label for="gender">Select Identity:</label>
+  <select id="gender">
+    <option value="yaren">Yaren (Feminine)</option>
+    <option value="rithan">Rithan (Masculine)</option>
+    <option value="wenor">Wenor (Other)</option>
+  </select>
+  <br/>
+  <button onclick="generateName()">Generate Name</button>
+  <div class="output" id="result"></div>
+
+  <script>
+    const syllables = {
+      yaren: {
+        prefix: ["Il", "Se", "Ay", "Ten", "Eli", "Lira", "Nysa", "Sae", "Teni", "Yae"],
+        middle: ["la", "ri", "sha", "sel", "nea", "ya", "thae"],
+        suffix: ["a", "e", "yn", "ara", "iel", "is"]
+      },
+      rithan: {
+        prefix: ["Ny", "Var", "Sor", "Tarn", "Kel", "Darak", "Ver", "Ral", "Zor", "Thel"],
+        middle: ["en", "or", "ak", "ur", "in", "om", "ek"],
+        suffix: ["n", "ek", "ar", "os", "ak", "eth"]
+      },
+      wenor: {
+        prefix: ["Ayel", "Ren", "Kor", "Tav", "El", "Yor", "Nir", "Laer"],
+        middle: ["in", "ir", "or", "eth", "ae", "on"],
+        suffix: ["il", "en", "ir", "is", "yn"]
+      }
+    };
+
+    const lastNamePartA = ["Velaris", "Shaelan", "Nyshaen", "Theron", "Arlith", "Zhaelor", "Rennari"];
+    const lastNamePartB = ["Taloren", "Vek", "Orak", "Darien", "Soth", "Arenth", "Valin"];
+
+    function rand(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function generateName() {
+      const gender = document.getElementById("gender").value;
+      const firstName =
+        rand(syllables[gender].prefix) +
+        rand(syllables[gender].middle) +
+        rand(syllables[gender].suffix);
+
+      // Randomize single or hyphenated last name
+      const useHyphen = Math.random() < 0.5;
+      const lastName = useHyphen
+        ? rand(lastNamePartA) + "-" + rand(lastNamePartB)
+        : rand([...lastNamePartA, ...lastNamePartB]);
+
+      document.getElementById("result").innerText = `${firstName} ${lastName}`;
+    }
+  </script>
+</body>
+</html>
